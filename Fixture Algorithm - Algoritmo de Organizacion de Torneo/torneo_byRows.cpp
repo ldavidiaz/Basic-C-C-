@@ -48,7 +48,7 @@ void torneo(int** &panel,int numParejas){
             eliminarFila(panel,numParejas+1);
             asignarCeros(panel,numParejas+1);
         }
-        else{//AQUI ESTA MAL CUANDO M ES PAR Y MAYOR QUE 2
+        else{
             m=numParejas/2;
             torneo(panel,m);
             //SI M ES PAR

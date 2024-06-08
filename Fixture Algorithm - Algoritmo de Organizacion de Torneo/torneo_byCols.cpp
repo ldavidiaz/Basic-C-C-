@@ -151,7 +151,7 @@ void torneo(int** &panel,int numParejas){
                             int aux = i-(m+1);
                             if(i==m+1){
                                 panel[i][j] = 1;//siempre 1
-                            }                           //5-3... 6-3                                 // 1
+                            }                          
                             else if(panel[i][j-aux]==0){//1,2,3..
                                 panel[i][j-aux] = i-m;
                             }
@@ -163,7 +163,7 @@ void torneo(int** &panel,int numParejas){
                             int aux = i-(m+1);
                             if(i==m+1){
                                 panel[i][j] = n-m;
-                            }                                                          // 1
+                            }                                                          
                             else{                
                                 panel[i][j] = i-(m+1);
                             }
@@ -189,7 +189,7 @@ void  eliminarFila(int** &panel,int numParejas){//poner a -1 la fila n hasta la 
         panel[numParejas][j] = -1;
     }
 }
-void  asignarCeros(int** &panel,int numParejas){//asigna 0 a los valores de la matriz que sean iguales a n, desde la fila i hasta la ultima fila de la matriz original, y desde la columna 1 hasta la columna n-1
+void  asignarCeros(int** &panel,int numParejas){//asigna 0 a los valores de la matriz que sean iguales a n, desde la fila i hasta n/2, y desde la columna 1 hasta la columna n/2
     //parte superior
     for(int j=1;j<=(numParejas-1);j++){
         for(int i=1;i<=numParejas-1;i++){
@@ -199,30 +199,3 @@ void  asignarCeros(int** &panel,int numParejas){//asigna 0 a los valores de la m
         }
     }
 }
-//COMPLETAR Sup-Der y generar columna 0 Sup-Izq
-                /* for(int j=numParejas-m;j<=numParejas-1;j++){//1. Como m impar, nos colocamos en la columan n-m
-                    for(int i=1;i<=m;i++){
-                        if(j==numParejas-m){//si estamos en la columna de partida
-                            if(i==1){//fila de partida
-                                panel[i][j] = (numParejas/2)+i;//se asigna el valor igual que en Sup-Der cuando m es par
-                            }
-                            else if(panel[i][j-(i-1)]==0){//aqui se comprueba si existen 0's en la misma fila pero para una columna menos la fila actual-1
-                                panel[i][j-(i-1)] = (numParejas/2)+i;//se asigna el valor a la posicion si esta vale 0, de la misma forma que Sup-Der m par
-                            }
-                            else{
-                                panel[i][i-j] = (numParejas/2)+i;
-                            }
-                        }
-                        else{//si no estamos en la columna de partida
-                            if(i!=m){
-                                if(i+j>numParejas)
-                                    panel[i][j] = m+1;
-                                else
-                                    panel[i][j] = j+i;
-                            }
-                            else{
-                                panel[i][j] = j;
-                            }
-                        }
-                    }
-                } */
