@@ -1,9 +1,12 @@
 #include <iostream>
 #include <string>
 #include <cstring>
+#include <limits>
+#include <winbase.h>
 
 using namespace std;
-
+void StartCounter(double &PCFreq, __int64 &CounterStart);
+double GetCounter(double& PCFreq, __int64& CounterStart);
 int main() {
     char alfabeto_letras[] = "abcdefghijklmn\xA4opqrstuvwxyz";
     char alfabeto_con_digitos[] = "abcdefghijklmn\xA4opqrstuvwxyz0123456789";
@@ -16,11 +19,11 @@ int main() {
 
     int tamKey;
     do{
-        cout << "Ingrese el tamano de la clave: ";
+        cout << "Ingrese el tama\xA4o de la clave: ";
         try{
             cin >> tamKey;
             if (cin.fail() || tamKey <= 0 || tamKey > 4) {
-                throw runtime_error("El tamano de la clave debe ser mayor que 0 y menor o igual a 4.");
+                throw runtime_error("El tama\xA4o de la clave debe ser mayor que 0 y menor o igual a 4.");
             }
         }catch(exception& e){
             cout << "Error: " << e.what() << endl;
@@ -43,7 +46,10 @@ int main() {
     char *key;
     bool keyEncontrada = false;
     int contador = 0;
-
+    //timelapse
+    double PCFreq = 0.0;
+	__int64 CounterStart = 0;
+    StartCounter(PCFreq, CounterStart);//aqui si solo queremos saber lo que tarda en encontrar la clave o no
     for (int k = 1; k <= tamKey; k++) {
         for (int i = 0; i < strlen(alfabeto); i++) {
             if (k > 1 && keyEncontrada==false) {
@@ -129,8 +135,12 @@ int main() {
         
     }
     found:
+    double timeSecs = GetCounter(PCFreq, CounterStart);
+	double timeMs = timeSecs * 1000.0;
     if (keyEncontrada) {
         cout << "Clave encontrada: " << key << endl;
+        cout << "Tiempo transcurrido: " << timeSecs << " segundos." << endl;
+		cout << "Tiempo transcurrido: " << timeMs << " milisegundos." << endl;
     } else {
         cout << "No se ha podido encontrar la clave." << endl;
     }
@@ -138,4 +148,22 @@ int main() {
     cout << "Numero de claves intentadas: " << contador << endl;
     system("pause");
     return 0;
+}
+//funciones para medir el tiempo
+void StartCounter(double &PCFreq, __int64 &CounterStart)
+{
+	LARGE_INTEGER li;
+	if (!QueryPerformanceFrequency(&li))
+		std::cout << "QueryPerformanceFrequency failed!\n";
+	//in secs
+	PCFreq = double(li.QuadPart);
+
+	QueryPerformanceCounter(&li);
+	CounterStart = li.QuadPart;
+}
+double GetCounter(double& PCFreq, __int64& CounterStart)
+{
+	LARGE_INTEGER li;
+	QueryPerformanceCounter(&li);
+	return double(li.QuadPart - CounterStart) / PCFreq;
 }
